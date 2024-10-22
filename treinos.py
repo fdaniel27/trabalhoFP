@@ -9,3 +9,11 @@ def salvar_dados(registros):
         for registro in registros:
             escritor.writerow(registro)
 
+def carregar_dados():
+    try:
+        with open('treinos_competicoes.csv', mode='r') as arquivo:
+            leitor = csv.reader(arquivo)
+            next(leitor)
+            return [linha for linha in leitor]
+    except FileNotFoundError:
+        return []
