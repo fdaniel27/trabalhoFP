@@ -34,3 +34,40 @@ def adicionar_registro(registros):
     registros.append(novo_registro)
     salvar_dados(registros)
     print("\nRegistro adicionado com sucesso!")
+
+def visualizar_registros(registros):
+    if not registros:
+        print("\nNenhum registro encontrado.")
+    else:
+        print("\nRegistros de Treinos e Competições:")
+        for i in range(len(registros)):
+            print(f"\nRegistro {i + 1}: {', '.join(registros[i])}")
+
+def atualizar_registro(registros):
+    visualizar_registros(registros)
+    try:
+        indice = int(input("\nDigite o número do registro que deseja atualizar: ")) - 1
+        if 0 <= indice < len(registros):
+            campos = ['Data', 'Tipo', 'Distância', 'Tempo', 'Localização', 'Condições']
+            for i in range(len(campos)):
+                novo_valor = input(f"{campos[i]} (atual: {registros[indice][i]}): ") or registros[indice][i]
+                registros[indice][i] = novo_valor
+            salvar_dados(registros)
+            print("\nRegistro atualizado com sucesso!")
+        else:
+            print("\nRegistro não encontrado.")
+    except (ValueError, IndexError):
+        print("\nEntrada inválida.")
+
+def excluir_registro(registros):
+    visualizar_registros(registros)
+    try:
+        indice = int(input("\nDigite o número do registro que deseja excluir: ")) - 1
+        if 0 <= indice < len(registros):
+            registros.pop(indice)
+            salvar_dados(registros)
+            print("\nRegistro excluído com sucesso!")
+        else:
+            print("\nRegistro não encontrado.")
+    except (ValueError, IndexError):
+        print("\nEntrada inválida.")
