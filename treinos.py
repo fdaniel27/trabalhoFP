@@ -71,3 +71,27 @@ def excluir_registro(registros):
             print("\nRegistro não encontrado.")
     except (ValueError, IndexError):
         print("\nEntrada inválida.")
+
+def main():
+    registros = carregar_dados()
+    
+    while True:
+        opcao = exibir_menu()
+        
+        if opcao == '1':
+            adicionar_registro(registros)
+        elif opcao == '2':
+            visualizar_registros(registros)
+        elif opcao == '3':
+            atualizar_registro(registros)
+        elif opcao == '4':
+            excluir_registro(registros)
+        elif opcao == '5':
+            print("\nSaindo...")
+            break
+        else:
+            print("\nOpção inválida. Tente novamente.")
+
+
+if __name__ == "__main__":
+    main()
