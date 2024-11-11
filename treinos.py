@@ -1,19 +1,13 @@
-import csv
-import random
 from datetime import datetime
 
 def salvar_dados(registros):
-    with open('treinos_competicoes.csv', mode='w', newline='') as arquivo:
-        escritor = csv.writer(arquivo)
-        escritor.writerow(['Data', 'Tipo', 'Distância', 'Tempo', 'Localização', 'Condições'])
+    with open('treinos_competicoes.txt', mode='w') as arquivo:
         for registro in registros:
-            escritor.writerow(registro)
+            arquivo.write(','.join(registro) + '\n')
 
 def carregar_dados():
     try:
-        with open('treinos_competicoes.csv', mode='r') as arquivo:
-            leitor = csv.reader(arquivo)
-            next(leitor)
-            return [linha for linha in leitor]
+        with open('treinos_competicoes.txt', mode='r') as arquivo:
+            return [linha.strip().split(',') for linha in arquivo.readlines()]
     except FileNotFoundError:
         return []
