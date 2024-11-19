@@ -1,4 +1,4 @@
-os.system("clear")
+
 from datetime import datetime
 
 def salvar_dados(registros):
