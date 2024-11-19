@@ -1,3 +1,4 @@
+os.system("clear")
 from datetime import datetime
 
 def salvar_dados(registros):
@@ -95,3 +96,53 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+#Funcionalidade Extra Jogo das Palavar
+def jogo_palavras():
+
+    perguntas = [
+        ("cachorro", "Um animal doméstico que late."),
+        ("c++", "Uma linguagem de programação que já vimos."),
+        ("praia", "Um lugar com areia e mar."),
+        ("livro", "Algo que você lê."),
+        ("onibus", "Um meio de transporte muito usado."),
+    ]
+    print("Bem-vindo ao jogo das palavras!")
+    print("Escolha um número entre 0 e 4 para ver qual e sua frase do jogo.")
+    
+    while True:
+        try:
+            indice = int(input("Digite o numero: "))
+            if 0 <= indice < len(perguntas):
+                palavra, dica = perguntas[indice]
+                break
+            else:
+                print("Escolha um numero entre 0 e 4.")
+        except ValueError:
+            print("Numero invalido! Digite um numero valido.")
+    
+
+    print(f"Dica: {dica}")
+    tentativas = 5
+    while tentativas > 0:
+        tentativa = input(f"Você tem {tentativas} tentativas. Qual é a palavra? ").lower()
+        if tentativa == palavra:
+            print("Parabéns! Você acertou!")
+            return
+        else:
+            print("Errado! Tente novamente.")
+            tentativas -= 1
+
+
+    print(f"Que pena! A palavra era '{palavra}'. Tente novamente.")
+
+
+if __name__ == "Nome":
+    while True:
+        jogo_palavras()
+        jogar = input("Quer jogar novamente? (0 para sim e 1 para não): ")
+        
+        if jogar != "0":
+            print("Obrigado por jogar! Até a próxima.")
+            break
