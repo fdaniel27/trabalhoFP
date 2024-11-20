@@ -1,12 +1,12 @@
-def salvar_dados(registros):
-    with open('treinos_competicoes.txt', mode='w') as arquivo:
+def salvar_dados(registros, arquivo='treinos_competicoes.txt'):
+    with open(arquivo, mode='w') as file:
         for registro in registros:
-            arquivo.write(','.join(registro) + '\n')
+            file.write(','.join(registro) + '\n')
 
-def carregar_dados():
+def carregar_dados(arquivo='treinos_competicoes.txt'):
     try:
-        with open('treinos_competicoes.txt', mode='r') as arquivo:
-            return [linha.strip().split(',') for linha in arquivo.readlines()]
+        with open(arquivo, mode='r') as file:
+            return [linha.strip().split(',') for linha in file.readlines()]
     except FileNotFoundError:
         return []
 
@@ -16,7 +16,10 @@ def exibir_menu():
     print("2. Visualizar registros")
     print("3. Atualizar registro")
     print("4. Excluir registro")
-    print("5. Sair")
+    print("5. Filtrar registros por distância ou tempo")
+    print("6. Definir e acompanhar metas")
+    print("7. Sugestões de treinos")
+    print("8. Sair")
     return input("Escolha uma opção: ")
 
 def validar_data(data):
@@ -44,13 +47,12 @@ def adicionar_registro(registros):
         if validar_data(data):
             break
         print("Data inválida. Tente novamente.")
-    
     tipo = input("Tipo (treino ou competição): ").capitalize()
     distancia = input("Distância (km): ")
     tempo = input("Tempo (minutos): ")
     localizacao = input("Localização: ")
     condicoes = input("Condições (ex.: ensolarado, nublado): ")
-    
+
     novo_registro = [data, tipo, distancia, tempo, localizacao, condicoes]
     registros.append(novo_registro)
     salvar_dados(registros)
@@ -101,12 +103,66 @@ def excluir_registro(registros):
     except (ValueError, IndexError):
         print("\nEntrada inválida.")
 
+def filtrar_registros(registros):
+    print("\nFiltrar registros:")
+    filtro = input("Deseja filtrar por distância (d) ou tempo (t)? ").lower()
+    if filtro not in {'d', 't'}:
+        print("Opção inválida.")
+        return
+    valor = input("Digite o valor mínimo para o filtro: ")
+    if not valor.isdigit():
+        print("Valor inválido.")
+        return
+
+    valor = int(valor)
+    campo = 2 if filtro == 'd' else 3  
+    resultados = [reg for reg in registros if int(reg[campo]) >= valor]
+
+    if not resultados:
+        print("\nNenhum registro encontrado com esse critério.")
+    else:
+        print("\nRegistros filtrados:")
+        for registro in resultados:
+            print(', '.join(registro))
+
+def definir_meta():
+    global meta
+    print("\nDefinir Meta:")
+    distancia = input("Digite a distância total (km) da meta: ")
+    if not distancia.isdigit():
+        print("Distância inválida.")
+        return
+    meta = int(distancia)
+    print(f"\nMeta de {meta} km definida com sucesso!")
+
+def acompanhar_meta(registros):
+    if meta is None:
+        print("\nNenhuma meta definida.")
+        return
+    distancia_total = sum(int(reg[2]) for reg in registros)
+    print(f"\nMeta: {meta} km")
+    print(f"Total percorrido: {distancia_total} km")
+    if distancia_total >= meta:
+        print("Parabéns! Você alcançou sua meta!")
+    else:
+        print(f"Faltam {meta - distancia_total} km para alcançar sua meta.")
+
+def sugestao_treino(registros):
+    if not registros:
+        print("\nNenhum registro disponível para gerar sugestão.")
+        return
+    sugestao = registros[-1]
+    print("\nSugestão de treino baseada no último registro:")
+    print(f"Data: Próxima semana, Tipo: {sugestao[1]}, Distância: {sugestao[2]} km, Tempo: {sugestao[3]} min, Localização: {sugestao[4]}, Condições: similar.")
+
 def main():
+    global meta
+    meta = None
     registros = carregar_dados()
-    
+
     while True:
         opcao = exibir_menu()
-        
+
         if opcao == '1':
             adicionar_registro(registros)
         elif opcao == '2':
@@ -116,6 +172,15 @@ def main():
         elif opcao == '4':
             excluir_registro(registros)
         elif opcao == '5':
+            filtrar_registros(registros)
+        elif opcao == '6':
+            if meta is None:
+                definir_meta()
+            else:
+                acompanhar_meta(registros)
+        elif opcao == '7':
+            sugestao_treino(registros)
+        elif opcao == '8':
             print("\nSaindo...")
             break
         else:
