@@ -1,7 +1,7 @@
 Descrição
 Este é um projeto de python passado pela professora Carol que permite gerenciar treinos e competições de corrida.
 Ele fornece funcionalidades para registrar informações sobre treinos e competições, acompanhar metas, filtrar registros e obter sugestões de treinos baseados no histórico.
-Além de ter um função extra que seria um jogo das palavras onde você recebera uma frase e você terá que adivinhar qual e a palavra de acordo com o conteúdo da frase.
+
 
 Principais funções:
 
