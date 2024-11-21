@@ -1,3 +1,6 @@
+import os
+os.system("cls")
+
 def salvar_dados(registros, arquivo='treinos_competicoes.txt'):
     try:
         with open(arquivo, mode='w', encoding='utf-8') as file:
